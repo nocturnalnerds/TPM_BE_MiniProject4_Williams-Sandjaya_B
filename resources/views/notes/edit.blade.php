@@ -23,6 +23,11 @@
                 <textarea class="form-control" id="content" name="content" rows="4"
                     required>{{ $note->content }}</textarea>
             </div>
+            @if ($note->image)
+            <div class="image-container">
+                <img src="{{ asset("{$note->image}") }}" alt="Note Image" class="img-fluid images">
+            </div>
+            @endif
             <div class="form-group">
                 <label for="image">Image:</label>
                 <input type="file" class="form-control" id="image" name="image">

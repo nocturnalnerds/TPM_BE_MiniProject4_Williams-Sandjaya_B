@@ -21,6 +21,18 @@
         scrollbar-width: none;
     }
 
+    .images {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .image-container {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
     .title-class {
         color: black;
         font-weight: 600;
@@ -82,6 +94,11 @@
                     <div class="note">
                         <p>{{ $note->content }}</p>
                     </div>
+                    @if ($note->image)
+                    <div class="image-container">
+                        <img src="{{ asset("{$note->image}") }}" alt="Note Image" class="img-fluid images">
+                    </div>
+                    @endif
                     <a href="{{ route('notes.edit', $note->id) }}" class="btn btn-warning mt-2 special-color1">Edit</a>
                     <form action="{{ route('notes.delete', $note->id) }}" method="POST" style="display:inline;">
                         @csrf

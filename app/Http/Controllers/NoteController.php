@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Note;
+use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
@@ -13,36 +12,66 @@ class NoteController extends Controller
         return view('notes.index', compact('notes'));
     }
 
-
-    public function store(Request $request)
+    public function create()
     {
+        return view('notes.create');
+    }
+
+    public function store(Request $request){
         $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'image' => 'nullable|mimes:png,jpg|max:2048',
         ]);
 
-        Note::create($request->all());
+        $fileName = null;
+        if ($request->hasFile('image')) {
+            $filePath = public_path('storage/images');
+            $file = $request->file('image');
+            $fileName = $request->title . '-' . $file->getClientOriginalName();
+            $file->move($filePath, $fileName);
+            $fileName = 'storage/images/' . $fileName;
+        }
+        Note::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $fileName,
+        ]);
         return redirect()->route('notes.index')->with('success', 'Note created successfully.');
     }
-    public function edit(Request $request){
-        $note = Note::findOrFail($request->id);
+
+    public function edit($id)
+    {
+        $note = Note::findOrFail($id);
         return view('notes.edit', compact('note'));
     }
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
+
+    public function update(Request $request, $id){
+        $notes = Note::findOrFail($id);
+
+        $fileName = null;
+        if ($request->hasFile('image')) {
+            $filePath = public_path('storage/images');
+            $file = $request->file('image');
+            $fileName = $request->title . '-' . $file->getClientOriginalName();
+            $file->move($filePath, $fileName);
+            $fileName = 'storage/images/' . $fileName;
+        }
+        $notes->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $fileName,
         ]);
 
-        $note = Note::findOrFail($id);
-        $note->update($request->all());
 
         return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
     }
-    public function delete($id){
+
+    public function delete($id)
+    {
         $note = Note::findOrFail($id);
         $note->delete();
+
         return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');
     }
 }
