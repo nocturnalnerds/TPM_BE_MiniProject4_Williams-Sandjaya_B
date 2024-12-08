@@ -29,13 +29,9 @@ class NoteController extends Controller
         return view('notes.edit', compact('note'));
     }
     
-    public function edit($id){
-        $note = Note::findOrFail($id);
-        return view('notes.edit', compact('note'));
-    }
-    public function delete($id){
-        $note = Note::findOrFail($id);
-        $note->delete();
-        return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');
-    }
+    // public function delete($id){
+    //     $note = Note::findOrFail($id);
+    //     $note->delete();
+    //     return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');
+    // }
 }
