@@ -9,7 +9,7 @@
         min-height: 100%;
         background-color: #ffeb3b;
         min-height: 200px;
-        max-height: 250px;
+        max-height: 500px;
         border-radius: 10px;
         padding: 20px;
         margin: 10px;
@@ -30,7 +30,7 @@
 
     .image-container {
         max-height: 100px;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
     .title-class {

@@ -6,7 +6,7 @@ use App\Http\Controllers\NoteController;
 Route::get('/register',[AuthController::class, 'viewRegister',])->name('register.view');
 Route::post('/register',[AuthController::class,'register'])->name('reigster.create');
 Route::get('/login',[AuthController::class,'viewLogin'])->name('login.view');
-Route::post('/login',[AuthController::class,'login'])->name('login');
+// Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
 Route::get('/', [NoteController::class, 'index'])->name('notes.index')->middleware('isLogin');
