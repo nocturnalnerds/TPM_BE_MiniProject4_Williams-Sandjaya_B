@@ -13,10 +13,6 @@ class NoteController extends Controller
         return view('notes.index', compact('notes'));
     }
 
-    public function create()
-    {
-        return view('notes.create');
-    }
 
     public function store(Request $request)
     {
@@ -27,5 +23,8 @@ class NoteController extends Controller
 
         Note::create($request->all());
         return redirect()->route('notes.index')->with('success', 'Note created successfully.');
+    }
+    public function edit(Request $request){
+        
     }
 }
