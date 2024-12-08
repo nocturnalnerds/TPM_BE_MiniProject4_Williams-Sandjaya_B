@@ -82,7 +82,8 @@
                     <div class="note">
                         <p>{{ $note->content }}</p>
                     </div>
-                    <a href="{{ route('notes.edit', $note->id) }}" class="btn btn-warning mt-2 special-color1">Edit</a>
+                    <a href="{{ route('notes.editView', $note->id) }}"
+                        class="btn btn-warning mt-2 special-color1">Edit</a>
                     <form action="{{ route('notes.delete', $note->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
