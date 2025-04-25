@@ -9,22 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(){
-        Schema::create('notes', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
-            $table->string('image')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->decimal('total_price', 10, 2);
             $table->timestamps();
         });
+        
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('invoices');
     }
 };

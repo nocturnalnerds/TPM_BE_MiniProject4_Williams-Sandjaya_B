@@ -22,6 +22,7 @@ class AuthController extends Controller{
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role' => 'user',
             ]);
             return redirect()->route('login')->with('success', 'register successful!');
         }catch(\Exception $e){
@@ -40,13 +41,18 @@ class AuthController extends Controller{
                 'password'=> 'required|string',
             ]);
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                // dump('SUCCESS!');
                 $request->session()->regenerate();
-                return redirect()->route('notes.index')->with('success', 'Login successful!');
+
+                $user = Auth::user();
+                session(['role' => $user->role, 'userId' => $user->id]);
+                if ($user->role === 'admin') {
+                    return redirect()->route('storage.index')->with('success', 'Welcome Admin!');
+                } else {
+                    return redirect()->route('storage.index')->with('success', 'Login successful!');
+                }
+                return redirect()->route('storage.index')->with('success', 'Login successful!');
                 
             } else {
-                // dump("ERROR DI SINI");
-                sleep(1000);
                 return back()->withErrors(['email' => 'Invalid credentials.']);
             }
         }catch(\Exception $e){
